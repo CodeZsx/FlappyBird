@@ -14,13 +14,6 @@ public class GameMain {
         mFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         PlayPanel playPanel = new PlayPanel(mFrame);
-
-//        JButton btn_start = new JButton();
-//        btn_start.setIcon(new ImageIcon("imgs/btn_start.png"));
-//        btn_start.setBounds(52, 0, 104, 58);
-//
-//        mFrame.add(btn_start);
-
         mFrame.add(playPanel);
 
         mFrame.setVisible(true);
