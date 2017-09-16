@@ -12,7 +12,7 @@ public class PlayPanel extends JPanel implements MouseListener{
 
     //枚举三个状态
     private enum GameStatus{
-        WAITTING,RUNNING,STOP,OVER;
+        WAITTING,RUNNING,STOP,OVER
     }
     //记录游戏的状态
     private GameStatus mStatus = GameStatus.WAITTING;
@@ -121,7 +121,6 @@ public class PlayPanel extends JPanel implements MouseListener{
                 long start = System.currentTimeMillis();
                 logic();
                 repaint();
-                System.out.println("repaint");
                 long end = System.currentTimeMillis();
                 if (end - start < TIME_INTERVAL) {
                     try {
@@ -173,8 +172,6 @@ public class PlayPanel extends JPanel implements MouseListener{
                     mBirdDisSum += AUTO_DOWN_SIZE;
                     mBird.setY(mBird.getY() + mBirdDisSum);
                 }else {
-//                    mStatus = GameStatus.WAITTING;
-//                    reset();
                     mStatus = GameStatus.OVER;
                 }
                 break;
@@ -207,20 +204,18 @@ public class PlayPanel extends JPanel implements MouseListener{
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        System.out.println("paint");
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println("paintComponent");
         //绘制背景
         g.drawImage(new ImageIcon("imgs/bg1.png").getImage(),0,0, 288, 511, this);
         //绘制bird
         mBird.drawBird(g);
         //绘制管道
-        for (int i = 0;i<mPipes.size();i++) {
-            mPipes.get(i).drawPipe(g);
+        for (Pipe pipe : mPipes) {
+            pipe.drawPipe(g);
         }
         //绘制地板
         mFloor.drawFloor(g);
