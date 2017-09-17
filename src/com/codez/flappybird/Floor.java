@@ -25,7 +25,7 @@ public class Floor{
         this.mGameHeight = mPanel.getHeight();
         x=0;
         y = (int) (mGameHeight * Config.PERCENT_FLOOR_Y_POS);
-        imgFloor = new ImageIcon("imgs/floor_bg2.png").getImage();
+        imgFloor = new ImageIcon("imgs/floor_bg.png").getImage();
     }
 
     //绘制floor

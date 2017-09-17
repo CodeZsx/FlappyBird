@@ -52,6 +52,8 @@ public class PlayPanel extends JPanel implements MouseListener{
     private ImageIcon imgIOk;
     private ImageIcon imgITitle;
     private ImageIcon imgIOver;
+
+    private Sound mSound;
     public PlayPanel(JFrame frame) {
         this.mGameWidth = frame.getWidth();
         this.mGameHeight = frame.getHeight();
@@ -73,7 +75,9 @@ public class PlayPanel extends JPanel implements MouseListener{
         imgIStart = new ImageIcon("imgs/btn_start.png");
         imgIOk = new ImageIcon("imgs/btn_ok.png");
         imgITitle = new ImageIcon("imgs/title.png");
-        imgIOver = new ImageIcon("imgs/gameOver.png");
+        imgIOver = new ImageIcon("imgs/gameover.png");
+
+        mSound = new Sound();
 
         btnStart = new JButton();
         btnOk = new JButton();
@@ -86,12 +90,14 @@ public class PlayPanel extends JPanel implements MouseListener{
         btnStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                mSound.play("sounds/buttonClick.wav");
                 mStatus = GameStatus.RUNNING;
             }
         });
         btnOk.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                mSound.play("sounds/buttonClick.wav");
                 mStatus = GameStatus.WAITTING;
                 reset();
             }
@@ -112,6 +118,8 @@ public class PlayPanel extends JPanel implements MouseListener{
         mBirdDisSum = 0;
         //重置移除管道数
         mRemovePipeCount = 0;
+        //重置grade
+        grade = 0;
 
     }
     Thread mThread = new Thread(new Runnable() {
@@ -183,6 +191,7 @@ public class PlayPanel extends JPanel implements MouseListener{
     private void checkGameOver() {
         //与地板:如果碰到地板,gg
         if (mBird.getY() > mFloor.getY() - mBird.getBirdHeight()) {
+            mSound.play("sounds/die.wav");
             mStatus = GameStatus.STOP;
             mBird.setY(mBird.getY() + TOUCH_UP_SIZE);//结束前bird弹起,更有动感
         }
@@ -194,6 +203,7 @@ public class PlayPanel extends JPanel implements MouseListener{
             }
             //碰到管道
             if (pipe.touchBird(mBird)) {
+                mSound.play("sounds/hit.wav");
                 mStatus = GameStatus.STOP;
                 mBird.setY(mBird.getY() + TOUCH_UP_SIZE);//结束前bird弹起,更有动感
                 break;
@@ -210,7 +220,7 @@ public class PlayPanel extends JPanel implements MouseListener{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         //绘制背景
-        g.drawImage(new ImageIcon("imgs/bg1.png").getImage(),0,0, 288, 511, this);
+        g.drawImage(new ImageIcon("imgs/bg.png").getImage(),0,0, 288, 511, this);
         //绘制bird
         mBird.drawBird(g);
         //绘制管道
@@ -218,8 +228,14 @@ public class PlayPanel extends JPanel implements MouseListener{
             pipe.drawPipe(g);
         }
         //绘制地板
+        g.drawImage(new ImageIcon("imgs/ground.png").getImage(), 0, (int) (mGameHeight * Config.PERCENT_FLOOR_Y_POS), this);
         mFloor.drawFloor(g);
-        mGrade.drawGrade(g, grade);
+        //绘制分数
+        if (grade > mGrade.getGrade()) {
+            mSound.play("sounds/point.wav");
+            mGrade.setGrade(grade);
+        }
+        mGrade.drawGrade(g);
 
         if (mStatus == GameStatus.WAITTING) {
             g.drawImage(imgITitle.getImage(),
@@ -247,6 +263,7 @@ public class PlayPanel extends JPanel implements MouseListener{
         switch (mStatus) {
             case RUNNING:
                 mBirdDisSum = -TOUCH_UP_SIZE;
+                mSound.play("sounds/wing.wav");
                 break;
             default:
                 break;

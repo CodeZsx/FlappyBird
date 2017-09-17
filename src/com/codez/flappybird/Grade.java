@@ -8,7 +8,7 @@ import java.awt.*;
  */
 public class Grade {
     //分数
-    private String mGrade;
+    private int grade;
 
     private int mGameWidth;
     private int mGameHeight;
@@ -23,12 +23,13 @@ public class Grade {
         for (int i = 0; i < imgNums.length; i++) {
             imgNums[i] = new ImageIcon("imgs/n" + i + ".png").getImage();
         }
+        grade = 0;
     }
 
     // 绘制过程中，每完成一个数字则偏移一个数字的宽度
-    public void drawGrade(Graphics g,int grade) {
+    public void drawGrade(Graphics g) {
         //初始化分数，int--->string
-        mGrade = grade + "";
+        String mGrade = grade + "";
         int offsetCenterToLeft = -imgNums[0].getWidth(mPanel) * mGrade.length() / 2;
         for (int i = 0; i < mGrade.length(); i++) {
             int num = Integer.valueOf(mGrade.substring(i, i + 1));
@@ -36,5 +37,13 @@ public class Grade {
                     mPanel);
             offsetCenterToLeft += imgNums[0].getWidth(mPanel);
         }
+    }
+
+    public int getGrade() {
+        return grade;
+    }
+
+    public void setGrade(int grade) {
+        this.grade = grade;
     }
 }
