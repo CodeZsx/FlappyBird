@@ -30,8 +30,8 @@ public class Pipe {
     private PlayPanel mPanel;
     public Pipe(PlayPanel panel) {
         this.mPanel = panel;
-        imgPipeTop = new ImageIcon("imgs/g2.png").getImage();
-        imgPipeBottom = new ImageIcon("imgs/g1.png").getImage();
+        imgPipeTop = new ImageIcon("imgs/pipe_top.png").getImage();
+        imgPipeBottom = new ImageIcon("imgs/pipe_bottom.png").getImage();
         mGameheight = mPanel.getHeight();
         mGameWidth = mPanel.getWidth();
         pipeWidth = imgPipeTop.getWidth(mPanel);
