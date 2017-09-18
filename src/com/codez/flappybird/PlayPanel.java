@@ -176,7 +176,7 @@ public class PlayPanel extends JPanel implements MouseListener{
                 break;
             case STOP:
                 //如果鸟还在空中,先掉下来
-                if (mBird.getY() < mFloor.getY() - mBird.getBirdHeight()) {
+                if (mBird.getY() + mBird.getBirdHeight() < mFloor.getY()) {
                     mBirdDisSum += AUTO_DOWN_SIZE;
                     mBird.setY(mBird.getY() + mBirdDisSum);
                 }else {
@@ -231,7 +231,7 @@ public class PlayPanel extends JPanel implements MouseListener{
         g.drawImage(new ImageIcon("imgs/ground.png").getImage(), 0, (int) (mGameHeight * Config.PERCENT_FLOOR_Y_POS), this);
         mFloor.drawFloor(g);
         //绘制分数
-        if (grade > mGrade.getGrade()) {
+        if (grade == 0 || grade > mGrade.getGrade()) {
             mSound.play("sounds/point.wav");
             mGrade.setGrade(grade);
         }
